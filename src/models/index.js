@@ -1,0 +1,12 @@
+module.exports.Admin = require("./admin.model");
+module.exports.systmeConfig = require("./systemconfig.model");
+module.exports.Role = require("./role.model");
+module.exports.Token = require("./token.model");
+module.exports.Channel = require("./channel.model");
+module.exports.News = require("./news.model");
+module.exports.Advertisment = require("./advertisement.model");
+module.exports.NFLTeam = require("./nfl.teams.model");
+module.exports.NFLFixture = require("./nfl.fixture.model");
+module.exports.BoxingPlayer = require("./boxing.player.model");
+module.exports.BoxingFixture = require("./boxing.fixture.model");
+module.exports.Notification = require("./notification.model");

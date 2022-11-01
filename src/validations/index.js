@@ -1,0 +1,11 @@
+module.exports.adminValidation = require("./admin.validation");
+module.exports.channelValidation = require("./channel.validation");
+module.exports.newsValidation = require("./news.validation");
+module.exports.advertismentValidation = require("./advertisment.validate");
+module.exports.footballValidation = require("./football.validation");
+module.exports.basketBallValidation = require("./basketball.validation");
+module.exports.nflTeamsValidation = require("./nfl.teams.validation");
+module.exports.nflFixtureValidation = require("./nfl.fixture.validation");
+module.exports.boxingPlayersValidation = require("./boxing.player.validations");
+module.exports.boxingFixtureValidation = require("./bxoing.fixture.validations");
+module.exports.notifcationValidation = require("./notification.validation");

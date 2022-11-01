@@ -1,0 +1,13 @@
+module.exports.adminService = require("./admin.service");
+module.exports.tokenService = require("./token.service");
+module.exports.systemConfigService = require("./systemConfig.service");
+module.exports.channelService = require("./channel.service");
+module.exports.newsService = require("./news.service");
+module.exports.advertismentService = require("./advertisment.service");
+module.exports.footballService = require("./football.service");
+module.exports.basketballService = require("./basketball.service");
+module.exports.nflTeamService = require("./nfl.teams.service");
+module.exports.nflFixtureService = require("./nfl.fixture.service");
+module.exports.boxingPlayersService = require("./boxing.players.service");
+module.exports.boxingFixtureService = require("./boxing.fixture.service");
+module.exports.notificationService = require("./notification.service");

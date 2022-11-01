@@ -1,0 +1,11 @@
+module.exports.adminController = require("./admin.controller");
+module.exports.channelController = require("./channel.controller");
+module.exports.newsController = require("./news.controller");
+module.exports.advertismentController = require("./advertisment.controller");
+module.exports.footballController = require("./football.controller");
+module.exports.basketballController = require("./basketball.controller");
+module.exports.nflTeamController = require("./nfl.team.controller");
+module.exports.nflFixtureController = require("./nfl.fixture.controller");
+module.exports.boxingPlayersController = require("./boxing.players.controller");
+module.exports.boxingFixtureController = require("./boxing.fixtures.controller");
+module.exports.notificationController = require("./notifcation.controller");
