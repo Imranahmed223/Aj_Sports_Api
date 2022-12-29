@@ -1,25 +1,48 @@
 const Joi = require("joi");
 
-const fetchFixtureByLeaugesId = {
+const fetchFootballLiveFixture = {
   query: Joi.object()
     .keys({
-      league: Joi.string()
-        .regex(/^\d+$/)
-        .required()
-        .label("id should be valid number"),
-      timezone: Joi.string().required().label("Timezone is required"),
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
     })
-    .min(2)
+    .min(0)
     .max(2),
 };
 
+const fetchFootballOtherFixture = {
+  query: Joi.object()
+    .keys({
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
+    })
+    .min(0)
+    .max(2),
+};
+
+const fetchFixtureByLeaugeId = {
+  query: Joi.object()
+    .keys({
+      id: Joi.string()
+        .regex(/^\d+$/)
+        .required()
+        .label("league id required and should be a valid number"),
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
+    })
+    .min(1)
+    .max(3),
+};
 const fetchMatchByFixtureId = {
-  query: Joi.object().keys({
-    id: Joi.string()
-      .regex(/^\d+$/)
-      .required()
-      .label("fixture should be a valid number"),
-  }),
+  query: Joi.object()
+    .keys({
+      id: Joi.string()
+        .regex(/^\d+$/)
+        .required()
+        .label("fixture id is required and should be a valid number!"),
+    })
+    .min(1)
+    .max(1),
 };
 
 const fetechLinupOfFixture = {
@@ -40,8 +63,10 @@ const fetchStandingsByLeaugeId = {
   }),
 };
 module.exports = {
-  fetchFixtureByLeaugesId,
   fetechLinupOfFixture,
   fetchMatchByFixtureId,
   fetchStandingsByLeaugeId,
+  fetchFixtureByLeaugeId,
+  fetchFootballLiveFixture,
+  fetchFootballOtherFixture,
 };

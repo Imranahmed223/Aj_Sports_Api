@@ -1,32 +1,33 @@
 const pick = require("../utils/pick");
 const catchAsync = require("../utils/catchAsync");
 const { footballService } = require("../services");
-const { footballLib } = require("./lib");
 
 const fetchAllLeauges = catchAsync(async (req, res) => {
   const result = await footballService.fetchAllLeauges();
   res.send(result);
 });
 
-const fetchFixtureByLeaugesId = catchAsync(async (req, res) => {
-  const query = pick(req.query, ["league", "timezone"]);
-  let from = new Date();
-  from = new Date(from.setDate(from.getDate() - 5));
-  let to = new Date();
-  to = new Date(to.setDate(to.getDate() + 10));
-  query.from = from.toISOString().split("T")[0];
-  query.to = to.toISOString().split("T")[0];
-  query.season = to.getFullYear();
-  query.status = "NS-1H-HT-2H-ET-P-BT-LIVE-FT-AET-PEN-BT-AWD";
-  let result = await footballService.fetchFixtureByLeaugesId(query);
-  result = await footballLib.categorizeMatches(result);
+const fetchFootballLiveFixture = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip"]);
+  let result = await footballService.fetchFootballLiveFixture(options);
+  res.send(result);
+});
+
+const fetchFootballOtherFixture = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip"]);
+  let result = await footballService.fetchFootballOtherFixture(options);
   res.send(result);
 });
 
 const fetchMatchByFixtureId = catchAsync(async (req, res) => {
-  const query = pick(req.query, ["id", "timezone"]);
-  const result = await footballService.fetchMatchByFixtureId(query);
+  const result = await footballService.fetchMatchByFixtureId(req.query);
   res.send(result);
+});
+
+const fetchFixtureByLeaugeId = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip", "id"]);
+  const response = await footballService.fetchFixtureByLeaugeId(options);
+  res.send(response);
 });
 
 const fetechLinupOfFixture = catchAsync(async (req, res) => {
@@ -41,9 +42,11 @@ const fetchStandingsByLeaugeId = catchAsync(async (req, res) => {
   res.send(result);
 });
 module.exports = {
-  fetchFixtureByLeaugesId,
+  fetchFootballLiveFixture,
   fetechLinupOfFixture,
   fetchAllLeauges,
   fetchMatchByFixtureId,
   fetchStandingsByLeaugeId,
+  fetchFixtureByLeaugeId,
+  fetchFootballOtherFixture,
 };

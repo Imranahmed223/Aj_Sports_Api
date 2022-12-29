@@ -16,6 +16,8 @@ const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
 const logger = require("./config/logger");
 const fetchTweets = require("./cron/tweets.cron");
+const { getFootballFixtures } = require("./cron/football_cron");
+const { getBasketBallFixtures } = require("./cron/basket_cron");
 const CronJob = require("cron").CronJob;
 const app = express();
 
@@ -25,16 +27,41 @@ if (config.env !== "test") {
   app.use(morgan.errorHandler);
 }
 
-const fetchTweetsEveryOneMinute = new CronJob(
-  "*/1 * * * *",
-  async () => {
-    logger.info("Twitter scrapper running");
-    await fetchTweets();
-  },
-  null,
-  true
-);
-fetchTweetsEveryOneMinute.start();
+// const fetchTweetsEveryOneMinute = new CronJob(
+//   "*/1 * * * *",
+//   async () => {
+//     logger.info("Twitter scrapper running");
+//     await fetchTweets();
+//   },
+//   null,
+//   true
+// );
+// fetchTweetsEveryOneMinute.start();
+
+// const fetchFootballFixtureCron = new CronJob(
+//   "*/60 * * * * *",
+//   async () => {
+//     logger.info("Football fixtures cron is running!");
+//     await getFootballFixtures();
+// console.log("Football fixtures cron is finished running!s");
+//   },
+//   null,
+//   true
+// );
+// fetchFootballFixtureCron.start();
+
+// const fetchbasketbBallFixtureCron = new CronJob(
+//   // 0 0 7 * 0 // run this on prod
+//   "*/60 * * * * *",
+//   async () => {
+//     logger.info("Basket Ball fixtures cron is running!");
+//     await getBasketBallFixtures();
+//     console.log("Basket Ball fixtures cron is finished running!s");
+//   },
+//   null,
+//   true
+// );
+// fetchbasketbBallFixtureCron.start();
 // set security HTTP headers
 app.use(helmet());
 

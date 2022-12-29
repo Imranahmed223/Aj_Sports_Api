@@ -179,6 +179,39 @@ const classifyData = (
   }
   return response;
 };
+
+const prepareFootballFilter = () => {
+  let filter = {};
+  let from = new Date();
+  from = new Date(from.setDate(from.getDate() - 1));
+  let to = new Date();
+  to = new Date(to.setDate(to.getDate() + 7));
+  filter = {
+    "fixture.date": {
+      $gte: from,
+      $lte: to,
+    },
+    "fixture.status.short": {
+      $in: [
+        "NS",
+        "1H",
+        "HT",
+        "2H",
+        "ET",
+        "P",
+        "BT",
+        "LIVE",
+        "FT",
+        "AET",
+        "PEN",
+        "BT",
+        "AWD",
+      ],
+    },
+  };
+  return filter;
+};
 module.exports = {
   categorizeMatches,
+  prepareFootballFilter,
 };

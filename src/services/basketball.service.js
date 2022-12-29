@@ -1,5 +1,8 @@
 const config = require("../config/config");
 const { default: axios } = require("axios");
+const { BasketBall } = require("../models");
+const ApiError = require("../utils/ApiError");
+const httpStatus = require("http-status");
 
 const fetchBasketballLeauges = async () => {
   const options = {
@@ -18,7 +21,6 @@ const fetchBasketballLeauges = async () => {
       data.response[i].name == "NBA" &&
       data.response[i].country.name == "USA"
     ) {
-      console.log("Yes");
       newData.push({
         leauge: data.response[i],
       });
@@ -29,22 +31,83 @@ const fetchBasketballLeauges = async () => {
   return data;
 };
 
-const fetchGamesByLeaugeId = async (query) => {
-  const year = new Date().getFullYear();
-  query.season = `${year}-${year + 1}`;
-  const options = {
-    method: "GET",
-    url: "https://api-basketball.p.rapidapi.com/games",
-    params: query,
-    headers: {
-      "X-RapidAPI-Key": config.ripidBasketballApi.key,
-      "X-RapidAPI-Host": config.ripidBasketballApi.host,
-    },
+const fetchBasketBallLiveFixtures = async (options) => {
+  let to = new Date();
+  let from = new Date(new Date().setHours(new Date().getHours() - 4));
+  filter = {
+    $or: [
+      {
+        $and: [
+          {
+            "status.short": { $in: ["Q1", "Q2", "Q3", "Q4", "OT", "BT", "HT"] },
+            showLiveIcon: true,
+          },
+        ],
+      },
+      {
+        $and: [
+          {
+            date: { $gte: from, $lte: to },
+            "status.short": "FT",
+            showLiveIcon: true,
+          },
+        ],
+      },
+    ],
   };
-  const response = await axios(options);
-  return response.data;
+  return await BasketBall.paginate(filter, options);
 };
 
+const fetchbasketBalllOtherFixture = async (options) => {
+  let from = new Date();
+  from = new Date(from.setDate(from.getDate() - 2));
+  let excludeDate = new Date(new Date().setHours(new Date().getHours() - 4));
+  let to = new Date();
+  to = new Date(to.setDate(to.getDate() + 5));
+  filter = {
+    $or: [
+      {
+        $and: [
+          {
+            "status.short": {
+              $in: ["NS", "FT", "AOT", "POST", "CANC", "SUSP"],
+            },
+            showLiveIcon: false,
+          },
+        ],
+      },
+      {
+        $and: [
+          {
+            $or: [
+              {
+                date: { $gte: from, $lte: excludeDate },
+                showLiveIcon: false,
+              },
+            ],
+            $or: [
+              {
+                date: { $gte: excludeDate, $lte: to },
+                showLiveIcon: false,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+  return await BasketBall.paginate(filter, options);
+};
+
+/**
+ *
+ * @param {*} id
+ * @returns
+ */
+const fetchFixtureByLeaugeId = async (options) => {
+  const filter = { "league.id": Number(options.id) };
+  return await BasketBall.paginate(filter, options);
+};
 const fetchStandingsByLeaugeId = async (query) => {
   const year = new Date().getFullYear();
   query.season = `${year}-${year + 1}`;
@@ -60,8 +123,18 @@ const fetchStandingsByLeaugeId = async (query) => {
   const response = await axios(options);
   return response.data;
 };
+
+const fetchMatchByFixtureId = async (query) => {
+  const filter = { _id: Number(query.id) };
+  const fixture = await BasketBall.findOne(filter);
+  if (!fixture) throw new ApiError(httpStatus.BAD_REQUEST, "No fixture found!");
+  return fixture;
+};
 module.exports = {
   fetchBasketballLeauges,
-  fetchGamesByLeaugeId,
+  fetchBasketBallLiveFixtures,
+  fetchbasketBalllOtherFixture,
   fetchStandingsByLeaugeId,
+  fetchFixtureByLeaugeId,
+  fetchMatchByFixtureId,
 };

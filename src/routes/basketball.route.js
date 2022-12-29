@@ -6,12 +6,32 @@ const router = express.Router();
 
 router.route("/leauge").get(basketballController.fetchBasketballLeauges);
 router
-  .route("/games")
+  .route("/fixture/live")
   .get(
-    validate(basketBallValidation.fetchGamesByLeaugeId),
-    basketballController.fetchGamesByLeaugeId
+    validate(basketBallValidation.fetchBasketBallLiveFixtures),
+    basketballController.fetchBasketBallLiveFixtures
   );
 
+router
+  .route("/fixture/other")
+  .get(
+    validate(basketBallValidation.fetchbasketBalllOtherFixture),
+    basketballController.fetchbasketBalllOtherFixture
+  );
+
+router
+  .route("/fixture/single")
+  .get(
+    validate(basketBallValidation.fetchMatchByFixtureId),
+    basketballController.fetchMatchByFixtureId
+  );
+
+router
+  .route("/fixture/league")
+  .get(
+    validate(basketBallValidation.fetchFixtureByLeaugeId),
+    basketballController.fetchFixtureByLeaugeId
+  );
 router
   .route("/standings")
   .get(

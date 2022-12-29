@@ -10,3 +10,5 @@ module.exports.NFLFixture = require("./nfl.fixture.model");
 module.exports.BoxingPlayer = require("./boxing.player.model");
 module.exports.BoxingFixture = require("./boxing.fixture.model");
 module.exports.Notification = require("./notification.model");
+module.exports.Football = require("./football.model");
+module.exports.BasketBall = require("./basketball.model");

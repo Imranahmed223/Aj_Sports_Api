@@ -4,6 +4,7 @@ const pick = require("../utils/pick");
 const ApiError = require("../utils/ApiError");
 
 const validate = (schema) => (req, res, next) => {
+  console.log(req.params);
   let data = req.body;
   data = JSON.parse(JSON.stringify(data));
   req.body = data;

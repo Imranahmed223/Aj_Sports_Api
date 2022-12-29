@@ -7,17 +7,32 @@ const router = express.Router();
 
 router.route("/leauge").get(footballController.fetchAllLeauges);
 router
-  .route("/fixture")
+  .route("/fixture/live")
   .get(
-    validate(footballValidation.fetchFixtureByLeaugesId),
-    footballController.fetchFixtureByLeaugesId
+    validate(footballValidation.fetchFootballLiveFixture),
+    footballController.fetchFootballLiveFixture
   );
+
 router
-  .route("/fixture/id")
+  .route("/fixture/other")
+  .get(
+    validate(footballValidation.fetchFootballOtherFixture),
+    footballController.fetchFootballOtherFixture
+  );
+
+router
+  .route("/fixture/single")
   .get(
     validate(footballValidation.fetchMatchByFixtureId),
     footballController.fetchMatchByFixtureId
   );
+router
+  .route("/fixture/league")
+  .get(
+    validate(footballValidation.fetchFixtureByLeaugeId),
+    footballController.fetchFixtureByLeaugeId
+  );
+
 router
   .route("/lineup")
   .get(
