@@ -1,1 +1,1 @@
-# society-s1-backend
+# Ajs Sport App backend
