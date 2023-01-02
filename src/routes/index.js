@@ -42,7 +42,7 @@ const defaultRoutes = [
     route: nflTeamRoute,
   },
   {
-    path: "/v1/nfl/fixture",
+    path: "/v1/nfl",
     route: nflFixtureRoute,
   },
   {

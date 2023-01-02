@@ -14,6 +14,102 @@ const createFixture = async (fixtureBody) => {
  *
  * @param {*} filter
  * @param {*} options
+ * @returns
+ */
+const fetchNflLiveFixture = async (options) => {
+  let to = new Date();
+  let from = new Date(new Date().setHours(new Date().getHours() - 4));
+  filter = {
+    $or: [
+      {
+        $and: [
+          {
+            date: {
+              $gte: new Date(new Date().setHours(new Date().getHours() - 5)),
+              $lte: new Date(new Date().setDate(new Date().getDate() + 7)),
+            },
+            "status.long": {
+              $in: [
+                "LIVE",
+                "Round 1",
+                "Round 2",
+                "Round 4",
+                "Over Time",
+                "Break Time",
+                "Halftime",
+                "Not Started",
+              ],
+            },
+            category: "hot",
+          },
+        ],
+      },
+      {
+        $and: [
+          {
+            date: { $gte: from, $lte: to },
+            "status.short": {
+              $in: ["Finished", "Cancelled", "Postpond"],
+            },
+            category: "hot",
+          },
+        ],
+      },
+    ],
+  };
+  return await NFLFixture.paginate(filter, options);
+};
+
+const fetchNflOtherFixture = async (options) => {
+  // let from = new Date();
+  // from = new Date(from.setDate(from.getDate() - 2));
+  // let excludeDate = new Date(new Date().setHours(new Date().getHours() - 4));
+  // let to = new Date();
+  // to = new Date(to.setDate(to.getDate() + 5));
+  filter = {
+    "fixture.date": {
+      $gte: new Date(),
+      $lte: new Date().setDate(new Date().getDate() + 7),
+    },
+    "fixture.status.short": { $in: ["Not Started"] },
+    category: "other",
+    // $or: [
+    //   {
+    //     $and: [
+    //       {
+    //         "fixture.status.short": {
+    //           $in: ["NS"],
+    //         },
+    //         category: "other",
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     $and: [
+    //       {
+    //         $or: [
+    //           {
+    //             "fixture.date": { $gte: from, $lte: excludeDate },
+    //             category: "other",
+    //           },
+    //         ],
+    //         $or: [
+    //           {
+    //             "fixture.date": { $gte: excludeDate, $lte: to },
+    //             category: "other",
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // ],
+  };
+  return await NFLFixture.paginate(filter, options);
+};
+/**
+ *
+ * @param {*} filter
+ * @param {*} options
  * @returns {Promise<Results>}
  */
 const queryFixture = async (filter, options) => {
@@ -71,4 +167,6 @@ module.exports = {
   getSingleFixture,
   updateFixture,
   deleteFixture,
+  fetchNflLiveFixture,
+  fetchNflOtherFixture,
 };

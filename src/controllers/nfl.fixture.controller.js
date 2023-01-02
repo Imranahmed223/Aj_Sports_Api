@@ -12,6 +12,17 @@ const createFixture = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(fixture);
 });
 
+const fetchNflLiveFixture = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip"]);
+  let result = await nflFixtureService.fetchNflLiveFixture(options);
+  res.send(result);
+});
+
+const fetchNflOtherFixture = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip"]);
+  let result = await nflFixtureService.fetchNflOtherFixture(options);
+  res.send(result);
+});
 const queryFixtures = catchAsync(async (req, res) => {
   const filter = pick(req.query, ["name"]);
   const options = pick(req.query, ["sortBy", "limit", "page"]);
@@ -48,4 +59,6 @@ module.exports = {
   getSingleFixture,
   updateFixture,
   deleteFixture,
+  fetchNflLiveFixture,
+  fetchNflOtherFixture,
 };

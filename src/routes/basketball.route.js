@@ -39,4 +39,10 @@ router
     basketballController.fetchStandingsByLeaugeId
   );
 
+router
+  .route("/fixture/update/:id")
+  .patch(
+    validate(basketBallValidation.updateFixture),
+    basketballController.updateFixture
+  );
 module.exports = router;

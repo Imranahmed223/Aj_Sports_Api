@@ -41,6 +41,13 @@ const fetchStandingsByLeaugeId = catchAsync(async (req, res) => {
   const result = await footballService.fetchStandingsByLeaugeId(query);
   res.send(result);
 });
+
+const updateFixture = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const { body } = req;
+  const fixture = await footballService.updateFixture(body, id);
+  res.send(fixture);
+});
 module.exports = {
   fetchFootballLiveFixture,
   fetechLinupOfFixture,
@@ -49,4 +56,5 @@ module.exports = {
   fetchStandingsByLeaugeId,
   fetchFixtureByLeaugeId,
   fetchFootballOtherFixture,
+  updateFixture,
 };

@@ -39,8 +39,14 @@ const fetchBasketBallLiveFixtures = async (options) => {
       {
         $and: [
           {
-            "status.short": { $in: ["Q1", "Q2", "Q3", "Q4", "OT", "BT", "HT"] },
-            showLiveIcon: true,
+            date: {
+              $gte: new Date(new Date().setHours(new Date().getHours() - 5)),
+              $lte: new Date(new Date().setDate(new Date().getDate() + 7)),
+            },
+            "status.short": {
+              $in: ["Q1", "Q2", "Q3", "Q4", "OT", "BT", "HT", "NS"],
+            },
+            category: "hot",
           },
         ],
       },
@@ -48,8 +54,8 @@ const fetchBasketBallLiveFixtures = async (options) => {
         $and: [
           {
             date: { $gte: from, $lte: to },
-            "status.short": "FT",
-            showLiveIcon: true,
+            "status.short": { $in: ["FT", "AOT", "POST", "CANC", "SUSP"] },
+            category: "hot",
           },
         ],
       },
@@ -65,36 +71,42 @@ const fetchbasketBalllOtherFixture = async (options) => {
   let to = new Date();
   to = new Date(to.setDate(to.getDate() + 5));
   filter = {
-    $or: [
-      {
-        $and: [
-          {
-            "status.short": {
-              $in: ["NS", "FT", "AOT", "POST", "CANC", "SUSP"],
-            },
-            showLiveIcon: false,
-          },
-        ],
-      },
-      {
-        $and: [
-          {
-            $or: [
-              {
-                date: { $gte: from, $lte: excludeDate },
-                showLiveIcon: false,
-              },
-            ],
-            $or: [
-              {
-                date: { $gte: excludeDate, $lte: to },
-                showLiveIcon: false,
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    date: {
+      $gte: new Date(),
+      $lte: new Date(new Date().setDate(new Date() + 7)),
+    },
+    "status.short": { $in: ["NS"] },
+    category: "other",
+    // $or: [
+    //   {
+    //     $and: [
+    //       {
+    //         "status.short": {
+    //           $in: ["NS", "FT", "AOT", "POST", "CANC", "SUSP"],
+    //         },
+    //         category: "other",
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     $and: [
+    //       {
+    //         $or: [
+    //           {
+    //             date: { $gte: from, $lte: excludeDate },
+    //             category: "other",
+    //           },
+    //         ],
+    //         $or: [
+    //           {
+    //             date: { $gte: excludeDate, $lte: to },
+    //             category: "other",
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // ],
   };
   return await BasketBall.paginate(filter, options);
 };
@@ -130,6 +142,15 @@ const fetchMatchByFixtureId = async (query) => {
   if (!fixture) throw new ApiError(httpStatus.BAD_REQUEST, "No fixture found!");
   return fixture;
 };
+
+const updateFixture = async (body, id) => {
+  const fixture = await BasketBall.findById(id);
+  if (!fixture) throw new ApiError(httpStatus.NOT_FOUND, "No fixture found!");
+
+  Object.assign(fixture, body);
+  await fixture.save();
+  return fixture;
+};
 module.exports = {
   fetchBasketballLeauges,
   fetchBasketBallLiveFixtures,
@@ -137,4 +158,5 @@ module.exports = {
   fetchStandingsByLeaugeId,
   fetchFixtureByLeaugeId,
   fetchMatchByFixtureId,
+  updateFixture,
 };

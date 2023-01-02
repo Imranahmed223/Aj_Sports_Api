@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { objectId } = require("./custom.validation");
 
 const fetchFootballLiveFixture = {
   query: Joi.object()
@@ -62,6 +63,22 @@ const fetchStandingsByLeaugeId = {
       .label("league should be a valid number"),
   }),
 };
+
+const updateFixture = {
+  params: Joi.object()
+    .keys({
+      id: Joi.string().custom(objectId),
+    })
+    .min(1)
+    .max(1),
+  body: Joi.object().keys({
+    category: Joi.string().valid("hot", "other"),
+    fixture: Joi.object().allow().optional(),
+    league: Joi.object().allow().optional(),
+    score: Joi.object().allow().optional(),
+    team: Joi.object().allow().optional(),
+  }),
+};
 module.exports = {
   fetechLinupOfFixture,
   fetchMatchByFixtureId,
@@ -69,4 +86,5 @@ module.exports = {
   fetchFixtureByLeaugeId,
   fetchFootballLiveFixture,
   fetchFootballOtherFixture,
+  updateFixture,
 };

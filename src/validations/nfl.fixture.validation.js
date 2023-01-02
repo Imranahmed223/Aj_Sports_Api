@@ -5,15 +5,54 @@ const createFixture = {
   body: Joi.object()
     .keys({
       date: Joi.date().required().description("Name is required"),
-      isLive: Joi.boolean().allow().optional(),
+      category: Joi.string().valid("hot", "other").required(),
       venue: Joi.object().allow().optional(),
-      status: Joi.object().allow().optional(),
-      teams: Joi.object().required().description("Team are required"),
-      goals: Joi.object().allow().optional(),
-      winner: Joi.any().allow().optional(),
+      status: Joi.object().keys({
+        long: Joi.string().valid(
+          "LIVE",
+          "Round 1",
+          "Round 2",
+          "Round 4",
+          "Over Time",
+          "Break Time",
+          "Halftime",
+          "Not Started",
+          "Finished"
+        ),
+        elapsed: Joi.number().allow(null).optional(),
+      }),
+      teams: Joi.object().keys({
+        away: Joi.string().custom(objectId).allow(null, "").optional(),
+        home: Joi.string().custom(objectId).allow(null).optional(),
+      }),
+      goals: Joi.object().keys({
+        away: Joi.number().allow(null).optional(),
+        home: Joi.number().allow(null).optional(),
+      }),
+      winner: Joi.string().custom(objectId).allow(null).optional(),
     })
     .min(2)
     .max(7),
+};
+
+const fetchNflLiveFixture = {
+  query: Joi.object()
+    .keys({
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
+    })
+    .min(0)
+    .max(2),
+};
+
+const fetchFootballOtherFixture = {
+  query: Joi.object()
+    .keys({
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
+    })
+    .min(0)
+    .max(2),
 };
 
 const getAllFixtures = {
@@ -37,12 +76,31 @@ const updateFixture = {
   body: Joi.object()
     .keys({
       date: Joi.date().allow().optional(),
-      isLive: Joi.boolean().allow().optional(),
+      category: Joi.string().valid("hot", "other"),
       venue: Joi.object().allow().optional(),
-      status: Joi.object().allow().optional(),
-      teams: Joi.object().allow().optional(),
-      goals: Joi.object().allow().optional(),
-      winner: Joi.string().allow().optional(),
+      status: Joi.object().keys({
+        long: Joi.string().valid(
+          "LIVE",
+          "Round 1",
+          "Round 2",
+          "Round 4",
+          "Over Time",
+          "Break Time",
+          "Halftime",
+          "Not Started",
+          "Finished"
+        ),
+        elapsed: Joi.number().allow(null).optional(),
+      }),
+      teams: Joi.object().keys({
+        away: Joi.string().custom(objectId).allow(null).optional(),
+        home: Joi.string().custom(objectId).allow(null).optional(),
+      }),
+      goals: Joi.object().keys({
+        away: Joi.string().custom(objectId).allow(null).optional(),
+        home: Joi.string().custom(objectId).allow(null).optional(),
+      }),
+      winner: Joi.string().custom(objectId).allow(null).optional(),
     })
     .min(2)
     .max(7),
@@ -60,4 +118,6 @@ module.exports = {
   getSingleFixture,
   updateFixture,
   deleteFixture,
+  fetchNflLiveFixture,
+  fetchFootballOtherFixture,
 };

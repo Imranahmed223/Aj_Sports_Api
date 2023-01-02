@@ -43,7 +43,7 @@ if (config.env !== "test") {
 //   async () => {
 //     logger.info("Football fixtures cron is running!");
 //     await getFootballFixtures();
-// console.log("Football fixtures cron is finished running!s");
+//     console.log("Football fixtures cron is finished running!s");
 //   },
 //   null,
 //   true

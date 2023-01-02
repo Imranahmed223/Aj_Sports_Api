@@ -2,7 +2,6 @@ const config = require("../config/config");
 const { default: axios } = require("axios");
 const footballData = require("../../football_data");
 const { Football } = require("../models");
-const { prepareFootballFilter } = require("../controllers/lib/football.lib");
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
 
@@ -20,10 +19,14 @@ const fetchFootballLiveFixture = async (options) => {
       {
         $and: [
           {
-            "fixture.status.short": {
-              $in: ["LIVE", "1H", "HT", "2H", "ET", "BT", "P"],
+            "fixture.date": {
+              $gte: new Date(new Date().setHours(new Date().getHours() - 5)),
+              $lte: new Date(new Date().setDate(new Date().getDate() + 7)),
             },
-            showLiveIcon: true,
+            "fixture.status.short": {
+              $in: ["LIVE", "1H", "HT", "2H", "ET", "BT", "P", "NS"],
+            },
+            category: "hot",
           },
         ],
       },
@@ -31,8 +34,10 @@ const fetchFootballLiveFixture = async (options) => {
         $and: [
           {
             "fixture.date": { $gte: from, $lte: to },
-            "fixture.status.short": "FT",
-            showLiveIcon: true,
+            "fixture.status.short": {
+              $in: ["FT", "AET", "PEN", "PST", "CANC", "ABD", "AWD"],
+            },
+            category: "hot",
           },
         ],
       },
@@ -48,59 +53,48 @@ const fetchFootballLiveFixture = async (options) => {
  * @returns
  */
 const fetchFootballOtherFixture = async (options) => {
-  let from = new Date();
-  from = new Date(from.setDate(from.getDate() - 2));
-  let excludeDate = new Date(new Date().setHours(new Date().getHours() - 4));
-  let to = new Date();
-  to = new Date(to.setDate(to.getDate() + 5));
+  // let from = new Date();
+  // from = new Date(from.setDate(from.getDate() - 2));
+  // let excludeDate = new Date(new Date().setHours(new Date().getHours() - 4));
+  // let to = new Date();
+  // to = new Date(to.setDate(to.getDate() + 5));
   filter = {
-    $or: [
-      {
-        $and: [
-          {
-            "fixture.status.short": {
-              $in: [
-                "NS",
-                "ET",
-                "P",
-                "BT",
-                "FT",
-                "AET",
-                "PEN",
-                "BT",
-                "AWD",
-                "TBD",
-                "INT",
-                "SUSP",
-                "PST",
-                "CANC",
-                "ABD",
-                "WO",
-              ],
-            },
-            showLiveIcon: false,
-          },
-        ],
-      },
-      {
-        $and: [
-          {
-            $or: [
-              {
-                "fixture.date": { $gte: from, $lte: excludeDate },
-                showLiveIcon: false,
-              },
-            ],
-            $or: [
-              {
-                "fixture.date": { $gte: excludeDate, $lte: to },
-                showLiveIcon: false,
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    "fixture.date": {
+      $gte: new Date(),
+      $lte: new Date().setDate(new Date().getDate() + 7),
+    },
+    "fixture.status.short": { $in: ["NS"] },
+    category: "other",
+    // $or: [
+    //   {
+    //     $and: [
+    //       {
+    //         "fixture.status.short": {
+    //           $in: ["NS"],
+    //         },
+    //         category: "other",
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     $and: [
+    //       {
+    //         $or: [
+    //           {
+    //             "fixture.date": { $gte: from, $lte: excludeDate },
+    //             category: "other",
+    //           },
+    //         ],
+    //         $or: [
+    //           {
+    //             "fixture.date": { $gte: excludeDate, $lte: to },
+    //             category: "other",
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // ],
   };
   return await Football.paginate(filter, options);
 };
@@ -193,6 +187,15 @@ const fetchStandingsByLeaugeId = async (query) => {
   return response.data;
 };
 
+const updateFixture = async (body, id) => {
+  const fixture = await Football.findById(id);
+  if (!fixture) throw new ApiError(httpStatus.NOT_FOUND, "No fixture found!");
+
+  Object.assign(fixture, body);
+  await fixture.save();
+  return fixture;
+};
+
 module.exports = {
   fetchAllLeauges,
   fetechLinupOfFixture,
@@ -201,4 +204,5 @@ module.exports = {
   fetchFootballLiveFixture,
   fetchFixtureByLeaugeId,
   fetchFootballOtherFixture,
+  updateFixture,
 };

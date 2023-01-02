@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { toJSON, paginate } = require("./plugins");
 const basketballSchema = mongoose.Schema(
   {
-    showLiveIcon: {
-      type: Boolean,
-      default: false,
+    category: {
+      type: String,
+      default: "other",
     },
     _id: {
       type: Number,

@@ -26,12 +26,6 @@ router
     validate(footballValidation.fetchMatchByFixtureId),
     footballController.fetchMatchByFixtureId
   );
-router
-  .route("/fixture/league")
-  .get(
-    validate(footballValidation.fetchFixtureByLeaugeId),
-    footballController.fetchFixtureByLeaugeId
-  );
 
 router
   .route("/lineup")
@@ -45,6 +39,13 @@ router
   .get(
     validate(footballValidation.fetchStandingsByLeaugeId),
     footballController.fetchStandingsByLeaugeId
+  );
+
+router
+  .route("/fixture/update/:id")
+  .patch(
+    validate(footballValidation.updateFixture),
+    footballController.updateFixture
   );
 
 module.exports = router;

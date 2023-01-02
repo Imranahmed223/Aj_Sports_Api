@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { toJSON, paginate } = require("./plugins");
 const footbalSchema = mongoose.Schema(
   {
-    showLiveIcon: {
-      type: Boolean,
-      default: false,
+    category: {
+      type: String,
+      default: "other",
     },
     fixture: {
       id: {

@@ -6,9 +6,9 @@ const nflFixtureSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  isLive: {
-    type: Boolean,
-    default: false,
+  category: {
+    type: String,
+    default: "other",
   },
   venue: {
     name: {
@@ -64,8 +64,8 @@ nflFixtureSchema.plugin(toJSON);
 nflFixtureSchema.plugin(paginate);
 
 /**
- * @typedef NFLTFixture
+ * @typedef NFLFixture
  */
-const NFLTFixture = mongoose.model("NFLTFixture", nflFixtureSchema);
+const NFLFixture = mongoose.model("NFLFixture", nflFixtureSchema);
 
-module.exports = NFLTFixture;
+module.exports = NFLFixture;

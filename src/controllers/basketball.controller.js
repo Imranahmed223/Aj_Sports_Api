@@ -1,6 +1,6 @@
 const pick = require("../utils/pick");
 const catchAsync = require("../utils/catchAsync");
-const { basketballService } = require("../services");
+const { basketballService, footballService } = require("../services");
 const { basketballLib } = require("./lib");
 
 const fetchBasketballLeauges = catchAsync(async (req, res) => {
@@ -37,6 +37,12 @@ const fetchStandingsByLeaugeId = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const updateFixture = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const { body } = req;
+  const fixture = await basketballService.updateFixture(body, id);
+  res.send(fixture);
+});
 module.exports = {
   fetchBasketballLeauges,
   fetchBasketBallLiveFixtures,
@@ -44,4 +50,5 @@ module.exports = {
   fetchStandingsByLeaugeId,
   fetchMatchByFixtureId,
   fetchFixtureByLeaugeId,
+  updateFixture,
 };
