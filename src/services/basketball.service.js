@@ -33,7 +33,7 @@ const fetchBasketballLeauges = async () => {
 
 const fetchBasketBallLiveFixtures = async (options) => {
   let to = new Date();
-  let from = new Date(new Date().setHours(new Date().getHours() - 4));
+  let from = new Date(new Date().setHours(new Date().getHours() - 6));
   filter = {
     $or: [
       {
@@ -65,11 +65,6 @@ const fetchBasketBallLiveFixtures = async (options) => {
 };
 
 const fetchbasketBalllOtherFixture = async (options) => {
-  let from = new Date();
-  from = new Date(from.setDate(from.getDate() - 2));
-  let excludeDate = new Date(new Date().setHours(new Date().getHours() - 4));
-  let to = new Date();
-  to = new Date(to.setDate(to.getDate() + 5));
   filter = {
     date: {
       $gte: new Date(),
@@ -77,36 +72,6 @@ const fetchbasketBalllOtherFixture = async (options) => {
     },
     "status.short": { $in: ["NS"] },
     category: "other",
-    // $or: [
-    //   {
-    //     $and: [
-    //       {
-    //         "status.short": {
-    //           $in: ["NS", "FT", "AOT", "POST", "CANC", "SUSP"],
-    //         },
-    //         category: "other",
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     $and: [
-    //       {
-    //         $or: [
-    //           {
-    //             date: { $gte: from, $lte: excludeDate },
-    //             category: "other",
-    //           },
-    //         ],
-    //         $or: [
-    //           {
-    //             date: { $gte: excludeDate, $lte: to },
-    //             category: "other",
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // ],
   };
   return await BasketBall.paginate(filter, options);
 };

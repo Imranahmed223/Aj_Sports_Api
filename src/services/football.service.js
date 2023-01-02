@@ -13,7 +13,7 @@ const httpStatus = require("http-status");
  */
 const fetchFootballLiveFixture = async (options) => {
   let to = new Date();
-  let from = new Date(new Date().setHours(new Date().getHours() - 4));
+  let from = new Date(new Date().setHours(new Date().getHours() - 6));
   filter = {
     $or: [
       {
@@ -53,11 +53,6 @@ const fetchFootballLiveFixture = async (options) => {
  * @returns
  */
 const fetchFootballOtherFixture = async (options) => {
-  // let from = new Date();
-  // from = new Date(from.setDate(from.getDate() - 2));
-  // let excludeDate = new Date(new Date().setHours(new Date().getHours() - 4));
-  // let to = new Date();
-  // to = new Date(to.setDate(to.getDate() + 5));
   filter = {
     "fixture.date": {
       $gte: new Date(),
@@ -65,36 +60,6 @@ const fetchFootballOtherFixture = async (options) => {
     },
     "fixture.status.short": { $in: ["NS"] },
     category: "other",
-    // $or: [
-    //   {
-    //     $and: [
-    //       {
-    //         "fixture.status.short": {
-    //           $in: ["NS"],
-    //         },
-    //         category: "other",
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     $and: [
-    //       {
-    //         $or: [
-    //           {
-    //             "fixture.date": { $gte: from, $lte: excludeDate },
-    //             category: "other",
-    //           },
-    //         ],
-    //         $or: [
-    //           {
-    //             "fixture.date": { $gte: excludeDate, $lte: to },
-    //             category: "other",
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // ],
   };
   return await Football.paginate(filter, options);
 };
