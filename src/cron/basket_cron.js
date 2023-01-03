@@ -3,6 +3,7 @@ const { default: axios } = require("axios");
 const { BasketBall } = require("../models");
 const getBasketBallFixtures = async () => {
   const leagues = await filterBasketlLeauges();
+  console.log(leagues);
   for (var i = 0; i < leagues.length; i++) {
     const data = await fetchMatchByFixtureLeaugeId(leagues[i]);
     if (data.results > 0) {
@@ -15,7 +16,6 @@ const getBasketBallFixtures = async () => {
       }));
 
       const writeBuilkResult = await BasketBall.bulkWrite(bulkOperations);
-      console.log(writeBuilkResult);
     }
   }
   return true;
@@ -48,7 +48,7 @@ const fetchMatchByFixtureLeaugeId = async (league) => {
   const query = {};
   query.league = league;
   const year = new Date().getFullYear();
-  query.season = `${year}-${year + 1}`;
+  query.season = `${year - 1}-${year}`;
   const options = {
     method: "GET",
     url: "https://api-basketball.p.rapidapi.com/games",

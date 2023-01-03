@@ -13,6 +13,7 @@ router
     nflFixtureController.createFixture
   )
   .get(
+    auth("manageNflFixtures"),
     validate(nflFixtureValidation.getAllFixtures),
     nflFixtureController.queryFixtures
   );
@@ -27,25 +28,25 @@ router
 router
   .route("/fixture/other")
   .get(
-    validate(nflFixtureValidation.fetchFootballOtherFixture),
+    validate(nflFixtureValidation.fetchNflOtherFixture),
     nflFixtureController.fetchNflOtherFixture
   );
 
-// router
-//   .route("/:id")
-//   .get(
-//     validate(nflFixtureValidation.getSingleFixture),
-//     nflFixtureController.getSingleFixture
-//   )
-//   .patch(
-//     auth("manageNflFixtures"),
-//     validate(nflFixtureValidation.updateFixture),
-//     nflFixtureController.updateFixture
-//   )
-//   .delete(
-//     auth("manageNflFixtures"),
-//     validate(nflFixtureValidation.deleteFixture),
-//     nflFixtureController.deleteFixture
-//   );
+router
+  .route("/:id")
+  .get(
+    validate(nflFixtureValidation.getSingleFixture),
+    nflFixtureController.getSingleFixture
+  )
+  .patch(
+    auth("manageNflFixtures"),
+    validate(nflFixtureValidation.updateFixture),
+    nflFixtureController.updateFixture
+  )
+  .delete(
+    auth("manageNflFixtures"),
+    validate(nflFixtureValidation.deleteFixture),
+    nflFixtureController.deleteFixture
+  );
 
 module.exports = router;

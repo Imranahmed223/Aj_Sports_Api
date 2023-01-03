@@ -43,6 +43,17 @@ const updateFixture = catchAsync(async (req, res) => {
   const fixture = await basketballService.updateFixture(body, id);
   res.send(fixture);
 });
+
+const fetchAllAdminFixture = catchAsync(async (req, res) => {
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ["page", "limit", "sortBy"]);
+  filter["date"] = {
+    $gte: new Date(new Date()),
+    $lte: new Date(new Date().setDate(new Date().getDate() + 10)),
+  };
+  const result = await basketballService.fetchAllAdminFixture(filter, options);
+  res.send(result);
+});
 module.exports = {
   fetchBasketballLeauges,
   fetchBasketBallLiveFixtures,
@@ -51,4 +62,5 @@ module.exports = {
   fetchMatchByFixtureId,
   fetchFixtureByLeaugeId,
   updateFixture,
+  fetchAllAdminFixture,
 };

@@ -45,7 +45,7 @@ const fetchNflLiveFixture = {
     .max(2),
 };
 
-const fetchFootballOtherFixture = {
+const fetchNflOtherFixture = {
   query: Joi.object()
     .keys({
       page: Joi.number().allow().optional(),
@@ -102,7 +102,7 @@ const updateFixture = {
       }),
       winner: Joi.string().custom(objectId).allow(null).optional(),
     })
-    .min(2)
+    .min(0)
     .max(7),
 };
 
@@ -119,5 +119,5 @@ module.exports = {
   updateFixture,
   deleteFixture,
   fetchNflLiveFixture,
-  fetchFootballOtherFixture,
+  fetchNflOtherFixture,
 };

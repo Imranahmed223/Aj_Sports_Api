@@ -48,6 +48,17 @@ const updateFixture = catchAsync(async (req, res) => {
   const fixture = await footballService.updateFixture(body, id);
   res.send(fixture);
 });
+
+const fetchAllAdminFixture = catchAsync(async (req, res) => {
+  const filter = pick(req.query, []);
+  const options = pick(req.query, ["page", "limit", "sortBy"]);
+  filter["fixture.date"] = {
+    $gte: new Date(new Date()),
+    $lte: new Date(new Date().setDate(new Date().getDate() + 10)),
+  };
+  const result = await footballService.fetchAllAdminFixture(filter, options);
+  res.send(result);
+});
 module.exports = {
   fetchFootballLiveFixture,
   fetechLinupOfFixture,
@@ -57,4 +68,5 @@ module.exports = {
   fetchFixtureByLeaugeId,
   fetchFootballOtherFixture,
   updateFixture,
+  fetchAllAdminFixture,
 };

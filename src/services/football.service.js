@@ -161,6 +161,9 @@ const updateFixture = async (body, id) => {
   return fixture;
 };
 
+const fetchAllAdminFixture = async (filter, options) => {
+  return await Football.paginate(filter, options);
+};
 module.exports = {
   fetchAllLeauges,
   fetechLinupOfFixture,
@@ -170,4 +173,5 @@ module.exports = {
   fetchFixtureByLeaugeId,
   fetchFootballOtherFixture,
   updateFixture,
+  fetchAllAdminFixture,
 };

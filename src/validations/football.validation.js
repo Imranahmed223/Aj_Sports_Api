@@ -79,6 +79,14 @@ const updateFixture = {
     team: Joi.object().allow().optional(),
   }),
 };
+
+const fetchAllAdminFixture = {
+  query: Joi.object().keys({
+    page: Joi.number().allow().optional(),
+    limit: Joi.number().allow().optional(),
+    skip: Joi.number().allow().optional(),
+  }),
+};
 module.exports = {
   fetechLinupOfFixture,
   fetchMatchByFixtureId,
@@ -87,4 +95,5 @@ module.exports = {
   fetchFootballLiveFixture,
   fetchFootballOtherFixture,
   updateFixture,
+  fetchAllAdminFixture,
 };

@@ -44,8 +44,16 @@ router
 router
   .route("/fixture/update/:id")
   .patch(
+    auth("manageFootball"),
     validate(footballValidation.updateFixture),
     footballController.updateFixture
   );
 
+router
+  .route("/fixture/all/fetch")
+  .get(
+    auth("manageFootball"),
+    validate(footballValidation.fetchAllAdminFixture),
+    footballController.fetchAllAdminFixture
+  );
 module.exports = router;

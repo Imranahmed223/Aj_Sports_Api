@@ -6,9 +6,9 @@ const boxingFixtureSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  isLive: {
-    type: Boolean,
-    default: false,
+  category: {
+    type: String,
+    default: "other",
   },
   venue: {
     name: {

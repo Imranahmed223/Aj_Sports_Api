@@ -2,6 +2,7 @@ const express = require("express");
 const validate = require("../middlewares/validate");
 const { basketBallValidation } = require("../validations/");
 const { basketballController } = require("../controllers");
+const auth = require("../middlewares/auth");
 const router = express.Router();
 
 router.route("/leauge").get(basketballController.fetchBasketballLeauges);
@@ -42,7 +43,16 @@ router
 router
   .route("/fixture/update/:id")
   .patch(
+    auth("manageBasketball"),
     validate(basketBallValidation.updateFixture),
     basketballController.updateFixture
+  );
+
+router
+  .route("/fixture/all/fetch")
+  .get(
+    auth("manageBasketball"),
+    validate(basketBallValidation.fetchAllAdminFixture),
+    basketballController.fetchAllAdminFixture
   );
 module.exports = router;

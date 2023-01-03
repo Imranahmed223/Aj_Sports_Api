@@ -4,15 +4,38 @@ const { objectId } = require("./custom.validation");
 const createFixture = {
   body: Joi.object()
     .keys({
+      cartegory: Joi.string().valid("hot", "other").required(),
       date: Joi.date().required().description("Name is required"),
-      isLive: Joi.boolean().allow().optional(),
       venue: Joi.object().allow().optional(),
       status: Joi.object().allow().optional(),
-      teams: Joi.object().required().description("Team is required"),
-      winner: Joi.any().allow().optional(),
+      teams: Joi.object().keys({
+        challenger: Joi.string().custom(objectId).allow(null, "").optional(),
+        defnender: Joi.string().custom(objectId).allow(null).optional(),
+      }),
+      winner: Joi.string().custom(objectId).allow(null).optional(),
     })
     .min(2)
     .max(6),
+};
+
+const fetchBoxingLiveFixture = {
+  query: Joi.object()
+    .keys({
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
+    })
+    .min(0)
+    .max(2),
+};
+
+const fetchBoxingOtherFixture = {
+  query: Joi.object()
+    .keys({
+      page: Joi.number().allow().optional(),
+      limit: Joi.number().allow().optional(),
+    })
+    .min(0)
+    .max(2),
 };
 
 const getAllFixtures = {
@@ -35,12 +58,15 @@ const updateFixture = {
   }),
   body: Joi.object()
     .keys({
-      date: Joi.date().allow().optional(),
-      isLive: Joi.boolean().allow().optional(),
+      cartegory: Joi.string().valid("hot", "other").required(),
+      date: Joi.date().required().description("Name is required"),
       venue: Joi.object().allow().optional(),
       status: Joi.object().allow().optional(),
-      teams: Joi.object().allow().optional(),
-      winner: Joi.string().allow().optional(),
+      teams: Joi.object().keys({
+        challenger: Joi.string().custom(objectId).allow(null, "").optional(),
+        defnender: Joi.string().custom(objectId).allow(null).optional(),
+      }),
+      winner: Joi.string().custom(objectId).allow(null).optional(),
     })
     .min(2)
     .max(6),
@@ -58,4 +84,6 @@ module.exports = {
   getSingleFixture,
   updateFixture,
   deleteFixture,
+  fetchBoxingLiveFixture,
+  fetchBoxingOtherFixture,
 };

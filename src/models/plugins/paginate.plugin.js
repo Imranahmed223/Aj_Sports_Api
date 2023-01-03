@@ -40,23 +40,30 @@ const paginate = (schema) => {
     const skip = (page - 1) * limit;
 
     const countPromise = this.countDocuments(filter).exec();
-    console.log(sort);
     let docsPromise = this.find(filter)
       .sort(sort)
       .allowDiskUse(true)
       .limit(limit)
-      .skip(skip);
-    if (options.populate) {
-      options.populate.split(",").forEach((populateOption) => {
-        docsPromise = docsPromise.populate(
-          populateOption
-            .split(".")
-            .reverse()
-            .reduce((a, b) => ({ path: b, populate: a }))
-        );
-      });
-    }
-    docsPromise = docsPromise.exec();
+      .skip(skip)
+      .populate(
+        options.populate
+          ? options.populate.split(",").map((p) => {
+              return { path: p };
+            })
+          : null
+      );
+    // if (options.populate) {
+    //   options.populate.split(",").forEach((populateOption) => {
+    //     docsPromise = docsPromise.populate(
+    //       populateOption
+    //         .split(".")
+    //         .reverse()
+    //         .reduce((a, b) => ({ path: b, populate: a }))
+    //     );
+    //   });
+    //   console.log(docsPromise);
+    // }
+    // docsPromise = docsPromise.exec();
 
     return Promise.all([countPromise, docsPromise]).then((values) => {
       const [totalResults, results] = values;

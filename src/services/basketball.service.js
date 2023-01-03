@@ -87,7 +87,7 @@ const fetchFixtureByLeaugeId = async (options) => {
 };
 const fetchStandingsByLeaugeId = async (query) => {
   const year = new Date().getFullYear();
-  query.season = `${year}-${year + 1}`;
+  query.season = `${year + 1}-${year}`;
   const options = {
     method: "GET",
     url: "https://api-basketball.p.rapidapi.com/standings",
@@ -116,6 +116,10 @@ const updateFixture = async (body, id) => {
   await fixture.save();
   return fixture;
 };
+const fetchAllAdminFixture = async (filter, options) => {
+  console.log(filter);
+  return await BasketBall.paginate(filter, options);
+};
 module.exports = {
   fetchBasketballLeauges,
   fetchBasketBallLiveFixtures,
@@ -124,4 +128,5 @@ module.exports = {
   fetchFixtureByLeaugeId,
   fetchMatchByFixtureId,
   updateFixture,
+  fetchAllAdminFixture,
 };

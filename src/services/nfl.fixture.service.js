@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const { NFLFixture } = require("../models");
+const { NFLFixture, NFLTeam } = require("../models");
 const ApiError = require("../utils/ApiError");
 /**
  * Create a fixture
@@ -7,6 +7,13 @@ const ApiError = require("../utils/ApiError");
  * @returns {Promise<NFLFixture>}
  */
 const createFixture = async (fixtureBody) => {
+  console.log(fixtureBody);
+  if (
+    (await NFLTeam.findById(fixtureBody.teams.away)) === null ||
+    (await NFLTeam.findById(fixtureBody.teams.home)) === null
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Team not found!");
+  }
   return await NFLFixture.create(fixtureBody);
 };
 
@@ -78,10 +85,7 @@ const fetchNflOtherFixture = async (options) => {
  * @returns {Promise<Results>}
  */
 const queryFixture = async (filter, options) => {
-  return await NFLFixture.find(filter)
-    .populate("teams.away")
-    .populate("teams.home")
-    .populate("winner");
+  return await NFLFixture.paginate(filter, options);
 };
 
 /**
