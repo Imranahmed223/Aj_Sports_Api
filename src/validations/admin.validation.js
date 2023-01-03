@@ -7,7 +7,6 @@ const createAdmin = {
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
       email: Joi.string().email().required(),
-      userName: Joi.string().required(),
       password: Joi.string().custom(password),
       role: Joi.string().allow().optional(),
     })
@@ -29,7 +28,6 @@ const updateAdmin = {
       firstName: Joi.string().allow().optional(),
       lastName: Joi.string().allow().optional(),
       email: Joi.string().email().allow().optional(),
-      userName: Joi.string().allow().optional(),
       password: Joi.string().custom(password).allow().optional(),
       active: Joi.boolean().allow().optional(),
       suspended: Joi.boolean().allow().optional(),
