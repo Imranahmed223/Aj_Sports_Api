@@ -4,10 +4,13 @@ const createPlayer = {
   body: Joi.object()
     .keys({
       name: Joi.string().required().description("Name is required"),
+      born: Joi.date().allow(null).optional(),
+      age: Joi.number().allow(null).optional(),
+      country: Joi.string().allow(null).optional(),
       active: Joi.boolean().allow().optional(),
     })
     .min(1)
-    .max(2),
+    .max(5),
 };
 
 const queryPlayes = {
@@ -30,11 +33,13 @@ const updatePlayer = {
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string().allow().optional(),
+      name: Joi.string().allow(null).optional(),
+      born: Joi.date().allow(null).optional(),
+      age: Joi.number().allow(null).optional(),
+      country: Joi.string().allow(null).optional(),
       active: Joi.boolean().allow().optional(),
-      logo: Joi.string().allow().optional(),
     })
-    .min(1)
+    .min(0)
     .max(3),
 };
 

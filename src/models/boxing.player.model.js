@@ -6,6 +6,18 @@ const boxingPlayersSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    born: {
+      type: Date,
+      default: null,
+    },
+    age: {
+      type: Number,
+      default: null,
+    },
+    country: {
+      type: String,
+      default: null,
+    },
     logo: {
       type: String,
       default: null,

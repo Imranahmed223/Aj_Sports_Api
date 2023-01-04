@@ -4,7 +4,6 @@ const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 const { boxingFixtureService } = require("../services");
 const config = require("../config/config");
-const { boxingFixtureLib } = require("./lib");
 
 const createFixture = catchAsync(async (req, res) => {
   let body = req.body;
@@ -12,14 +11,65 @@ const createFixture = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(fixture);
 });
 
+const fetchBoxingLiveFixture = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip"]);
+  options.populate = "teams.challenger,teams.defnender,winner";
+  let result = await boxingFixtureService.fetchBoxingLiveFixture(options);
+  result.results.forEach((res) => {
+    res.teams = res.teams.toObject();
+    if (res.teams.challenger) {
+      res.teams.challenger.logo = config.rootPath + res.teams.challenger.logo;
+    }
+    if (res.teams.defnender) {
+      res.teams.defnender.logo = config.rootPath + res.teams.defnender.logo;
+    }
+    if (res.winner) {
+      res.winner.logo = config.rootPath + res.winner.logo;
+    }
+  });
+  res.send(result);
+});
+
+const fetchBoxingOtherFixture = catchAsync(async (req, res) => {
+  const options = pick(req.query, ["page", "limit", "skip"]);
+  options.populate = "teams.challenger,teams.defnender,winner";
+  let result = await boxingFixtureService.fetchNflOtherFixture(options);
+  result.results.forEach((res) => {
+    res.teams = res.teams.toObject();
+    if (res.teams.challenger) {
+      res.teams.challenger.logo = config.rootPath + res.teams.challenger.logo;
+    }
+    if (res.teams.defnender) {
+      res.teams.defnender.logo = config.rootPath + res.teams.defnender.logo;
+    }
+    if (res.winner) {
+      res.winner.logo = config.rootPath + res.winner.logo;
+    }
+  });
+  res.send(result);
+});
 const queryFixtures = catchAsync(async (req, res) => {
   const filter = pick(req.query, ["name"]);
   const options = pick(req.query, ["sortBy", "limit", "page"]);
-  filter.gte = new Date(new Date().setDate(new Date().getDate() - 10));
-  filter.lte = new Date(new Date().setDate(new Date().getDate() + 10));
+  filter["date"] = {
+    $gte: new Date(new Date()),
+    $lte: new Date(new Date().setDate(new Date().getDate() + 10)),
+  };
+  options.populate = "teams.challenger,teams.defnender,winner";
   const result = await boxingFixtureService.queryFixture(filter, options);
-  let newResult = await boxingFixtureLib.filterGamesWithTimeRange(result);
-  res.send(newResult);
+  result.results.forEach((res) => {
+    res.teams = res.teams.toObject();
+    if (res.teams.challenger) {
+      res.teams.challenger.logo = config.rootPath + res.teams.challenger.logo;
+    }
+    if (res.teams.defnender) {
+      res.teams.defnender.logo = config.rootPath + res.teams.defnender.logo;
+    }
+    if (res.winner) {
+      res.winner.logo = config.rootPath + res.winner.logo;
+    }
+  });
+  res.send(result);
 });
 
 const getSingleFixture = catchAsync(async (req, res) => {
@@ -48,4 +98,6 @@ module.exports = {
   getSingleFixture,
   updateFixture,
   deleteFixture,
+  fetchBoxingLiveFixture,
+  fetchBoxingOtherFixture,
 };

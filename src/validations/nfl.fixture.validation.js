@@ -4,7 +4,7 @@ const { objectId } = require("./custom.validation");
 const createFixture = {
   body: Joi.object()
     .keys({
-      date: Joi.date().required().description("Name is required"),
+      date: Joi.date().required().description("Date is required"),
       category: Joi.string().valid("hot", "other").required(),
       venue: Joi.object().allow().optional(),
       status: Joi.object().keys({
@@ -22,8 +22,8 @@ const createFixture = {
         elapsed: Joi.number().allow(null).optional(),
       }),
       teams: Joi.object().keys({
-        away: Joi.string().custom(objectId).allow(null, "").optional(),
-        home: Joi.string().custom(objectId).allow(null).optional(),
+        away: Joi.string().custom(objectId).required(),
+        home: Joi.string().custom(objectId).required(),
       }),
       goals: Joi.object().keys({
         away: Joi.number().allow(null).optional(),
@@ -31,7 +31,7 @@ const createFixture = {
       }),
       winner: Joi.string().custom(objectId).allow(null).optional(),
     })
-    .min(2)
+    .min(3)
     .max(7),
 };
 

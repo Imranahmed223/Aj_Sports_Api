@@ -25,7 +25,7 @@ const fetchNflLiveFixture = catchAsync(async (req, res) => {
       res.teams.home.logo = config.rootPath + res.teams.home.logo;
     }
     if (res.winner) {
-      res.teams.winner.logo = config.rootPath + res.teams.winner.logo;
+      res.winner.logo = config.rootPath + res.winner.logo;
     }
   });
   res.send(result);
@@ -44,7 +44,7 @@ const fetchNflOtherFixture = catchAsync(async (req, res) => {
       res.teams.home.logo = config.rootPath + res.teams.home.logo;
     }
     if (res.winner) {
-      res.teams.winner.logo = config.rootPath + res.teams.winner.logo;
+      res.winner.logo = config.rootPath + res.winner.logo;
     }
   });
   res.send(result);
@@ -67,7 +67,7 @@ const queryFixtures = catchAsync(async (req, res) => {
       res.teams.home.logo = config.rootPath + res.teams.home.logo;
     }
     if (res.winner) {
-      res.teams.winner.logo = config.rootPath + res.teams.winner.logo;
+      res.winner.logo = config.rootPath + res.winner.logo;
     }
   });
   res.send(result);
@@ -84,7 +84,7 @@ const getSingleFixture = catchAsync(async (req, res) => {
     fixture.teams.home.logo = config.rootPath + fixture.teams.home.logo;
   }
   if (fixture.winner) {
-    fixture.teams.winner.logo = config.rootPath + fixture.teams.winner.logo;
+    fixture.winner.logo = config.rootPath + fixture.winner.logo;
   }
   res.send(fixture);
 });

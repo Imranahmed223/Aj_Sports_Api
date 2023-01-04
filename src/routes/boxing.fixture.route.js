@@ -6,7 +6,7 @@ const { boxingFixtureController } = require("../controllers");
 const router = express.Router();
 
 router
-  .route("/")
+  .route("/fixture")
   .post(
     auth("manageBoxingFixture"),
     validate(boxingFixtureValidation.createFixture),
@@ -18,7 +18,20 @@ router
   );
 
 router
-  .route("/:id")
+  .route("/fixture/live")
+  .get(
+    validate(boxingFixtureValidation.fetchBoxingLiveFixture),
+    boxingFixtureController.fetchBoxingLiveFixture
+  );
+
+router
+  .route("/fixture/other")
+  .get(
+    validate(boxingFixtureValidation.fetchBoxingOtherFixture),
+    boxingFixtureController.fetchBoxingOtherFixture
+  );
+router
+  .route("/fixture/:id")
   .get(
     validate(boxingFixtureValidation.getSingleFixture),
     boxingFixtureController.getSingleFixture

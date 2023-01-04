@@ -50,7 +50,7 @@ const defaultRoutes = [
     route: boxingPlayersRoute,
   },
   {
-    path: "/v1/boxing/fixture",
+    path: "/v1/boxing",
     route: boxingFixtureRoute,
   },
   {

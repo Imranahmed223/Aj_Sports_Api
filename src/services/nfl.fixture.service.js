@@ -7,7 +7,6 @@ const ApiError = require("../utils/ApiError");
  * @returns {Promise<NFLFixture>}
  */
 const createFixture = async (fixtureBody) => {
-  console.log(fixtureBody);
   if (
     (await NFLTeam.findById(fixtureBody.teams.away)) === null ||
     (await NFLTeam.findById(fixtureBody.teams.home)) === null
@@ -55,7 +54,7 @@ const fetchNflLiveFixture = async (options) => {
         $and: [
           {
             date: { $gte: from, $lte: to },
-            "status.short": {
+            "status.long": {
               $in: ["Finished", "Cancelled", "Postpond"],
             },
             category: "hot",
@@ -67,13 +66,18 @@ const fetchNflLiveFixture = async (options) => {
   return await NFLFixture.paginate(filter, options);
 };
 
+/**
+ *
+ * @param {*} options
+ * @returns
+ */
 const fetchNflOtherFixture = async (options) => {
   filter = {
-    "fixture.date": {
+    date: {
       $gte: new Date(),
       $lte: new Date().setDate(new Date().getDate() + 7),
     },
-    "fixture.status.short": { $in: ["Not Started"] },
+    "status.long": { $in: ["Not Started"] },
     category: "other",
   };
   return await NFLFixture.paginate(filter, options);
