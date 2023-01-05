@@ -34,6 +34,21 @@ const envVarsSchema = Joi.object()
       .required()
       .description("Ripid Basketball Api Host required"),
     TWITTER_API_BEARER_TOKEN: Joi.string().required(),
+    STRIP_API_SECRET: Joi.string()
+      .required()
+      .description("Strip api secret key"),
+    PAYPAL_CLIENT_ID: Joi.string()
+      .required()
+      .description("Paypal Client ID for paypal payment"),
+    PAYPAL_CLIENT_SECRET: Joi.string()
+      .required()
+      .description("Paypal Client Secret for paypal payment"),
+    PAYPAL_RETURN_URL: Joi.string()
+      .required()
+      .description("Paypal Payment Return Url"),
+    PAYPAL_CANCEL_URL: Joi.string()
+      .required()
+      .description("Paypal Payment Cancel Url"),
   })
   .unknown();
 
@@ -80,5 +95,14 @@ module.exports = {
   },
   twitter: {
     bearerToken: envVars.TWITTER_API_BEARER_TOKEN,
+  },
+  strip: {
+    secretKey: envVars.STRIP_API_SECRET,
+  },
+  paypal: {
+    paypalClientId: envVars.PAYPAL_CLIENT_ID,
+    paypalClientSeecret: envVars.PAYPAL_CLIENT_SECRET,
+    returnUrl: envVars.PAYPAL_RETURN_URL,
+    cancelUrl: envVars.PAYPAL_CANCEL_URL,
   },
 };

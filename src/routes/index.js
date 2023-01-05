@@ -10,6 +10,7 @@ const nflFixtureRoute = require("./nfl.fixture.route");
 const boxingPlayersRoute = require("./boxing.player.route");
 const boxingFixtureRoute = require("./boxing.fixture.route");
 const notificationRoute = require("./notification.route");
+const paymentRoutes = require("./payment.routes");
 const router = express.Router();
 
 const defaultRoutes = [
@@ -56,6 +57,10 @@ const defaultRoutes = [
   {
     path: "/v1/notifcation",
     route: notificationRoute,
+  },
+  {
+    path: "/v1/payment",
+    route: paymentRoutes,
   },
 ];
 

@@ -9,3 +9,4 @@ module.exports.nflFixtureController = require("./nfl.fixture.controller");
 module.exports.boxingPlayersController = require("./boxing.players.controller");
 module.exports.boxingFixtureController = require("./boxing.fixtures.controller");
 module.exports.notificationController = require("./notifcation.controller");
+module.exports.paymentController = require("./payment.controller");

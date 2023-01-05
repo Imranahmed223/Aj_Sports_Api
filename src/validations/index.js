@@ -9,3 +9,4 @@ module.exports.nflFixtureValidation = require("./nfl.fixture.validation");
 module.exports.boxingPlayersValidation = require("./boxing.player.validations");
 module.exports.boxingFixtureValidation = require("./bxoing.fixture.validations");
 module.exports.notifcationValidation = require("./notification.validation");
+module.exports.paymentValidation = require("./payment.validation");
