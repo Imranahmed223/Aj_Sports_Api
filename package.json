@@ -24,6 +24,7 @@
     "bcryptjs": "^2.4.3",
     "blob": "^0.1.0",
     "busy-hours": "^0.0.5",
+    "coinqvest-merchant-sdk": "^0.0.8",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "cron": "^2.0.0",
@@ -54,6 +55,7 @@
     "stripe": "^11.5.0",
     "twilio": "^3.76.1",
     "twitter-api-sdk": "^1.2.1",
+    "uuid": "^9.0.0",
     "validator": "^13.7.0",
     "winston": "^3.6.0",
     "xss-clean": "^0.1.1"

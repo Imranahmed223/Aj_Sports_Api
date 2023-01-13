@@ -18,13 +18,11 @@ const updateNews = {
   query: Joi.object().keys({
     id: Joi.string().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      title: Joi.string().allow().optional(),
-      description: Joi.string().allow().optional(),
-      photoPath: Joi.string().allow().optional(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    title: Joi.string().allow().optional(),
+    description: Joi.string().allow().optional(),
+    photoPath: Joi.string().allow().optional(),
+  }),
 };
 
 const deleteNews = {

@@ -12,3 +12,4 @@ module.exports.BoxingFixture = require("./boxing.fixture.model");
 module.exports.Notification = require("./notification.model");
 module.exports.Football = require("./football.model");
 module.exports.BasketBall = require("./basketball.model");
+module.exports.Transaction = require("./transaction.model");

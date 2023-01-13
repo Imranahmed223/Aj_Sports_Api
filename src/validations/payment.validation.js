@@ -14,6 +14,31 @@ const checkoutWithStripe = {
     .min(1),
 };
 
+const checkoutWithPaypal = {
+  body: Joi.object().keys({
+    amount: Joi.number().required(),
+  }),
+};
+const checkoutWithCrypto = {
+  body: Joi.object().keys({
+    amount: Joi.number().required(),
+    email: Joi.string().email().required(),
+    firstname: Joi.string().required(),
+    lastname: Joi.string().required(),
+    company: Joi.string().optional(),
+    adr1: Joi.string().optional(),
+    adr2: Joi.string().optional(),
+    zip: Joi.number().optional(),
+    city: Joi.string().optional(),
+    countrycode: Joi.string()
+      .min(2)
+      .max(2)
+      .label("Country code should be two characters long")
+      .optional(),
+  }),
+};
 module.exports = {
   checkoutWithStripe,
+  checkoutWithPaypal,
+  checkoutWithCrypto,
 };

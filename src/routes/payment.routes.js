@@ -12,4 +12,22 @@ router
     paymentController.checkoutWithStripe
   );
 
+router
+  .route("/paypal")
+  .post(
+    validate(paymentValidation.checkoutWithPaypal),
+    paymentController.checkoutWithPaypal
+  );
+
+router.route("/paypal/success").get(paymentController.paypalCheckoutSuccess);
+router.route("/paypal/cancel").get(paymentController.paypalCancelCheckout);
+router
+  .route("/bitcoin")
+  .post(
+    validate(paymentValidation.checkoutWithCrypto),
+    paymentController.checkoutWithCrypto
+  );
+
+router.route("/bitcoin/success").get(paymentController.cryptoCheckoutSuccess);
+router.route("/bitcoin/cancel").get(paymentController.cryptoCheckoutFailed);
 module.exports = router;

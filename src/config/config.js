@@ -49,6 +49,16 @@ const envVarsSchema = Joi.object()
     PAYPAL_CANCEL_URL: Joi.string()
       .required()
       .description("Paypal Payment Cancel Url"),
+    COINQVEST_SECRET: Joi.string()
+      .required()
+      .description("Coinqvest secret key is required!"),
+    COINQVEST_KEY: Joi.string().required().description("Coinqvest is required"),
+    COINQVEST_SUCCESS_URL: Joi.string()
+      .required()
+      .description("Coinqvest success url is required"),
+    COINQVEST_CANCEL_URL: Joi.string()
+      .required()
+      .description("Coinqvest cancel url is required"),
   })
   .unknown();
 
@@ -104,5 +114,11 @@ module.exports = {
     paypalClientSeecret: envVars.PAYPAL_CLIENT_SECRET,
     returnUrl: envVars.PAYPAL_RETURN_URL,
     cancelUrl: envVars.PAYPAL_CANCEL_URL,
+  },
+  coinqvest: {
+    key: envVars.COINQVEST_KEY,
+    secret: envVars.COINQVEST_SECRET,
+    successUrl: envVars.COINQVEST_SUCCESS_URL,
+    cancelUrl: envVars.COINQVEST_CANCEL_URL,
   },
 };

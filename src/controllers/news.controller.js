@@ -13,7 +13,6 @@ const createNews = catchAsync(async (req, res) => {
 });
 
 const queryNews = catchAsync(async (req, res, next) => {
-  console.log("Get News -------------- ");
   const filter = pick(req.query, ["firstName", "role"]);
   const options = pick(req.query, ["sortBy", "limit", "page"]);
   const result = await newsService.queryNews(filter, options);
@@ -24,7 +23,6 @@ const queryNews = catchAsync(async (req, res, next) => {
 });
 
 const getNews = catchAsync(async (req, res) => {
-  console.log("Get News -------------- ");
   const news = await newsService.getNews(req.params.id);
   if (!news) {
     throw new ApiError(httpStatus.BAD_REQUEST, "News not found");
@@ -35,6 +33,7 @@ const getNews = catchAsync(async (req, res) => {
 
 const updateNews = catchAsync(async (req, res) => {
   let updateNewsBody = req.body;
+  if (req.file) updateNewsBody.photoPath = req.file.filename;
   const news = await newsService.updateNews(req.params.id, updateNewsBody);
   res.send(news);
 });
