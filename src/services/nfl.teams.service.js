@@ -12,7 +12,6 @@ const createTeam = async (teamBody) => {
   if (await NFLTeam.isNameTaken(teamBody.name)) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Name Already Taken");
   }
-  if (teamBody.players) teamBody.players = JSON.parse(teamBody.players);
   const team = await NFLTeam.create(teamBody);
   return team;
 };
