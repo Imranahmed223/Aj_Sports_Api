@@ -4,7 +4,7 @@ const createTeam = {
   body: Joi.object()
     .keys({
       name: Joi.string().required().description("Name is required"),
-      players: Joi.any().allow().optional(),
+      players: Joi.optional(),
     })
     .min(1)
     .max(2),
@@ -31,7 +31,7 @@ const updateTeam = {
   body: Joi.object()
     .keys({
       name: Joi.string().allow().optional(),
-      players: Joi.any().allow().optional(),
+      players: Joi.optional(),
       logo: Joi.string().allow().optional(),
     })
     .min(1)
