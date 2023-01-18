@@ -70,7 +70,13 @@ const fetchFootballOtherFixture = async (options) => {
  * @returns
  */
 const fetchFixtureByLeaugeId = async (options) => {
-  const filter = { "league.id": Number(options.id) };
+  const filter = {
+    "league.id": Number(options.id),
+    "fixture.date": {
+      $gte: new Date(),
+      $lte: new Date().setDate(new Date().getDate() + 7),
+    },
+  };
   return await Football.paginate(filter, options);
 };
 /**

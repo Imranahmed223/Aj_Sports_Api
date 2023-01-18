@@ -56,4 +56,11 @@ router
     validate(footballValidation.fetchAllAdminFixture),
     footballController.fetchAllAdminFixture
   );
+
+router
+  .route("/fixture/leauge/")
+  .get(
+    validate(footballValidation.fetchFixtureByLeaugeId),
+    footballController.fetchFixtureByLeaugeId
+  );
 module.exports = router;

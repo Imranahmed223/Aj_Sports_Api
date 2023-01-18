@@ -67,7 +67,10 @@ const fetchStandingsByLeaugeId = {
 const updateFixture = {
   params: Joi.object()
     .keys({
-      id: Joi.string().custom(objectId),
+      id: Joi.string()
+        .regex(/^\d+$/)
+        .required()
+        .label("league should be a valid number"),
     })
     .min(1)
     .max(1),
