@@ -161,7 +161,6 @@ const fetchStandingsByLeaugeId = async (query) => {
 const updateFixture = async (body, id) => {
   const fixture = await Football.findById(id);
   if (!fixture) throw new ApiError(httpStatus.NOT_FOUND, "No fixture found!");
-
   Object.assign(fixture, body);
   await fixture.save();
   return fixture;

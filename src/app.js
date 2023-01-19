@@ -52,7 +52,7 @@ if (config.env !== "test") {
 
 // const fetchbasketbBallFixtureCron = new CronJob(
 //   // 0 0 7 * 0 // run this on prod
-//   "*/60 * * * * *",
+//   "*/10 * * * * *",
 //   async () => {
 //     logger.info("Basket Ball fixtures cron is running!");
 //     await getBasketBallFixtures();
